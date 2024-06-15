@@ -8,17 +8,17 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        fetchProductDetail();
-    }, [id]);
+        const fetchProductDetail = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/categories/categoryname/products/${id}`);
+                setProduct(response.data);
+            } catch (error) {
+                console.error('Error fetching product details', error);
+            }
+        };
 
-    const fetchProductDetail = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3000/categories/categoryname/products/${id}`);
-            setProduct(response.data);
-        } catch (error) {
-            console.error('Error fetching product details', error);
-        }
-    };
+        fetchProductDetail(); 
+    }, [id]);
 
     if (!product) {
         return <Typography>Loading...</Typography>;
@@ -30,7 +30,7 @@ const ProductDetail = () => {
                 <CardMedia
                     component="img"
                     height="400"
-                    image="https://via.placeholder.com/400" // Random placeholder image
+                    image="https://via.placeholder.com/400"
                     alt={product.name}
                 />
                 <CardContent>

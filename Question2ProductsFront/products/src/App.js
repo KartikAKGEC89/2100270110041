@@ -1,31 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Container, AppBar, Toolbar, Typography, makeStyles } from '@mui/material';
+import { Container, AppBar, Toolbar, Typography} from '@mui/material';
 import ProductList from './components/ProductList.js';
 import ProductDetail from './components/ProductDetail.js';
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    marginBottom: theme.spacing(3), 
-  },
-  container: {
-    marginTop: theme.spacing(6), 
-  },
-}));
-
 function App() {
-  const classes = useStyles();
 
   return (
     <Router>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">
-            E-Commerce App
+            Product
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container className={classes.container}>
+      <Container>
         <Routes>
           <Route path="/" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />

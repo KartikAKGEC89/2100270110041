@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Grid, Typography, Card, CardContent, CardMedia, Button } from '@mui/material';
 import Filter from './Filter';
@@ -12,29 +12,31 @@ const ProductList = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        fetchProducts();
-    }, [filters, sort, page]);
+    
 
-    const fetchProducts = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3000/categories/${filters.category}/products`, {
-                params: {
-                    top: 10,
-                    minPrice: filters.minPrice,
-                    maxPrice: filters.maxPrice,
-                    page,
-                    sort: sort.sortBy,
-                    order: sort.order
-                }
-            });
-            console.log(response);
-            setProducts(response.data.products);
-            setTotalPages(response.data.totalPages);
-        } catch (error) {
-            console.error('Error fetching products', error);
+    const fetchProducts = useCallback(async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/categories/${filters.category}/products`, {
+        params: {
+          top: 10,
+          minPrice: filters.minPrice,
+          maxPrice: filters.maxPrice,
+          page,
+          sort: sort.sortBy,
+          order: sort.order
         }
-    };
+      });
+      console.log(response);
+      setProducts(response.data.products);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.error('Error fetching products', error);
+    }
+  }, [filters, sort, page]);
+
+    useEffect(() => {
+    fetchProducts();
+    }, [fetchProducts]);
 
     const handleFilterChange = (newFilters) => {
         setFilters(newFilters);
@@ -60,7 +62,7 @@ const ProductList = () => {
                             <CardMedia
                                 component="img"
                                 height="140"
-                                image="https://via.placeholder.com/150" // Random placeholder image
+                                image="https://via.placeholder.com/150"
                                 alt={product.name}
                             />
                             <CardContent>
