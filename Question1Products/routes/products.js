@@ -2,6 +2,7 @@ const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const listProducts = require("../utils/listProducts");
 const arrangeProducts = require("../utils/arrangeProducts");
+const verifytoken = require("../middleware/verifytoken");
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ const CATEGORIES = [
   "PC",
 ];
 
-router.get("/:categoryname/products", async (req, res) => {
+router.get("/:categoryname/products", verifytoken, async (req, res) => {
   const { categoryname } = req.params;
   const { n, minPrice, maxPrice, sortBy, sortOrder, page = 1 } = req.query;
 
@@ -64,7 +65,7 @@ router.get("/:categoryname/products", async (req, res) => {
   }
 });
 
-router.get("/:categoryname/products/:productid", async (req, res) => {
+router.get("/:categoryname/products/:productid", verifytoken, async (req, res) => {
   const { categoryname, productid } = req.params;
 
   if (!CATEGORIES.includes(categoryname)) {
