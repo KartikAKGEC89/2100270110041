@@ -6,7 +6,7 @@ import Sort from './Sort';
 import Pagination from './Pagination';
 
 const ProductList = () => {
-    const [products, setProducts] = useState([]);
+    // const [products, setProducts] = useState([]);
     const [filters, setFilters] = useState({ category: '', company: '', rating: '', minPrice: 0, maxPrice: 100000, availability: '' });
     const [sort, setSort] = useState({ sortBy: '', order: 'asc' });
     const [page, setPage] = useState(1);
@@ -14,29 +14,60 @@ const ProductList = () => {
 
     
 
-    const fetchProducts = useCallback(async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/categories/${filters.category}/products`, {
-        params: {
-          top: 10,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
-          page,
-          sort: sort.sortBy,
-          order: sort.order
-        }
-      });
-      console.log(response);
-      setProducts(response.data.products);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error('Error fetching products', error);
-    }
-  }, [filters, sort, page]);
+//     const fetchProducts = useCallback(async () => {
+//     try {
+//     //   const response = await axios.get(`http://localhost:8080/categories/${filters.category}/products`, {
+//     //     params: {
+//     //       top: 10,
+//     //       minPrice: filters.minPrice,
+//     //       maxPrice: filters.maxPrice,
+//     //       page,
+//     //       sort: sort.sortBy,
+//     //       order: sort.order
+//     //     }
+//     //   });
+//       console.log(response);
+//       setProducts(response.data.products);
+//       setTotalPages(response.data.totalPages);
+//     } catch (error) {
+//       console.error('Error fetching products', error);
+//     }
+//   }, [filters, sort, page]);
 
-    useEffect(() => {
-    fetchProducts();
-    }, [fetchProducts]);
+    // useEffect(() => {
+    // fetchProducts();
+    // }, [fetchProducts]);
+
+    const products = [
+        {
+            name: "Laptop",
+            company: "AMZ",
+            category:"Laptop"
+        },
+        {
+            name: "Phone",
+            company: "AMZ",
+            category:"Laptop"
+        },
+        {
+            name: "Phone",
+            company: "AMZ",
+            category:"Laptop"
+        },
+        {
+            name: "TV",
+            company: "AMZ",
+            category:"Laptop"
+        },
+        {
+            name: "AC",
+            company: "AMZ",
+            category:"Laptop"
+        },
+
+    ]
+    
+    
 
     const handleFilterChange = (newFilters) => {
         setFilters(newFilters);
